@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MbCtl</title>
+    <link rel="stylesheet" type="text/css" href="css/semantic.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="js/semantic.min.js"></script>
+</head>
+<body>
+    <div class="ui grid">
+        <div class="eight wide column centered">
+        
+             <!-- Начало меню -->
+                <div class="ui secondary pointing menu">
+                    <a class="item">Home</a>
+                    <a class="item">Ban</a>
+                    <a class="item active">Mbctl</a>
+                    <a class="item">MailBoxSize</a>
+                </div>
+             <!-- Конец меню -->
+             
+             <!-- Информация о сервисе --> 
+                <div class="info">
+                    <div class="mbctl" id="go"><p>?</p></div>
+                </div>
+                <div id="help" style="display: none;"><!-- Сaмo oкнo --> 
+                    <div class="header"></div>
+                    <div class="header-in">Описание сервиса</div>
+                    <div class="description-in">Сервис предназначен для Сервис предназначен для Сервис предназначен для Сервис предназначен для </div>
+                    <div id="modal_close">X</div> <!-- Кнoпкa зaкрыть --> 
+                </div>
+                 <div id="overlay"></div><!-- Пoдлoжкa -->
+            <!-- Конец информации о сервисе -->
+
+            <div class="ui segment">
+                <!--Начало формы выбора действия-->
+                <div class="ui raised padded text container segment">
+                    <form class="ui form" name="publish">
+                        <select name="action" class="ui dropdown" id="select">
+                                <option value="">Выберите действие</option>
+                                <option value="one">Добавить переадрессацию</option>
+                                <option value="two">Удалить переадрессацию</option>
+                                <option value="three">Создать ящик</option>
+                                <option value="four">Удалить ящик</option>
+                                <option value="five">Изменить статус домена</option>
+                            </select>
+                        <button class="large ui button top width" type="submit">Отправить</button>
+                    </form>
+                </div>
+                <!--Конец формы выбора действия-->
+                
+                <!--Блок для уведомлений -->
+                    <div id="wrong" class="ui raised padded text container segment" style="display:none;"></div>
+
+                <!--Начало формы добавления переадрессации-->
+                <div class="ui raised padded text container segment" id="one" style="display:none;">
+                    <form class="ui form" id="items" name="one">
+                        <div class="inline">
+                            <label>С ящика</label>
+                            <input type="text" name="mailbox" placeholder="Укажите почтовый ящик" style="margin-top: 7px;">
+                        </div>
+                        <div class="inline right">
+                            <label>На ящик</label>
+                            <input type="text" name="mailboxto" placeholder="Укажите почтовый ящик" style="margin-top: 7px;">
+                        </div>
+                        <button class="large ui button width">Добавить</button>
+                        <input type="button" value="+ ящик" onclick="addElements()" id="add" class="b">
+                    </form>
+                </div>
+                <!--Конец формы добавления переадрессации-->
+
+                <!--Начало формы удаления переадрессации-->
+                <div class="ui raised padded text container segment" id="two" style="display:none;">
+                    <form class="ui form" name="two">
+                        <div class="inline">
+                            <label>С ящика</label>
+                            <input type="text" name="mailbox" placeholder="Укажите почтовый ящик" style="margin-top: 7px;">
+                        </div>
+                        <div class="inline right">
+                            <label>На ящик</label>
+                            <input type="text" name="mailboxto" placeholder="Укажите почтовый ящик" style="margin-top: 7px;">
+                        </div>
+                        <button class="large ui button width">Удалить</button>
+                    </form>
+                </div>
+                <!--Конец формы удаления переадрессации-->
+
+                <!--Начало формы создания ящика-->
+                <div class="ui raised padded text container segment" id="three" style="display:none;">
+                    <form class="ui form" name="three">
+                        <div class="inline">
+                            <label>Название ящика</label>
+                            <input type="text" name="name" placeholder="Укажите почтовый ящик" style="margin-top: 7px;">
+                        </div>
+                        <div class="inline right">
+                            <label>Пароль</label>
+                            <input type="text" name="password" placeholder="Пароль" style="margin-top: 7px;">
+                        </div>
+                        <button class="large ui button width">Создать</button>
+                    </form>
+                </div>
+                <!--Конец формы создания ящика-->
+
+                <!--Начало формы удаления ящика-->
+                <div class="ui raised padded text container segment" id="four" style="display:none;">
+                    <form class="ui form" name="four">
+                        <div class="inline del">
+                            <label>Название ящика</label>
+                            <input type="text" name="name" placeholder="Укажите почтовый ящик" style="margin-top: 7px;">
+                        </div>
+                        <button class="large ui button width">Удалить</button>
+                    </form>
+                </div>
+                <!--Конец формы удаления ящика-->
+
+                <!--Начало формы изменения статуса домена-->
+                <div class="ui raised padded text container segment" id="five" style="display:none;">
+                    <form class="ui form" name="five">
+                        <div class="field">
+                            <input type="text" name="name" placeholder="Введите домен">
+                        </div>
+                        <div class="grouped fields">
+                            <label>Выберите статус:</label>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="throughput" value="active">
+                                    <label>active</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="throughput" value="disabled">
+                                    <label>disabled</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox">
+                                    <input type="radio" name="throughput" value="frozen">
+                                    <label>frozen</label>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="ui slider checkbox checked">
+                                    <input type="radio" name="throughput" value="foreign">
+                                    <label>foreign</label>
+                                </div>
+                            </div>
+                            <button class="large ui button width status">Сохранить</button>
+                        </div>
+                    </form>
+                </div>
+                <!--Конец формы изменения статуса домена-->
+                
+                <!--Модальное окно подтверждения-->
+                <div class="ui small modal">
+                    <div class="header">Header</div>
+                    <div class="content">Вы уверены, что хотите выполнить данное действие?</div>
+                    <div class="actions">
+                        <div class="ui negative button">Нет</div>
+                        <div class="ui positive right labeled icon button">Да<i class="checkmark icon"></i> </div>
+                    </div>
+                </div>
+                <!-- Конец Модального окна подтверждения-->
+                
+                <!--Анимация ожидания-->
+                <div class="ui active inverted dimmer" id="anime" style="margin-top: 182px; background-color: rgba(255, 255, 255, 0); display: none;">
+                    <div class="ui large text loader">Ожидайте...</div>
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $('#select').dropdown();   //скрипт для выпадающего списка
+    </script>
+    <script>      
+        $(document).ready(function() {
+            $('#go').click( function(event){ // клик пo ссылки с id="go"
+                event.preventDefault(); 
+                $('#overlay').fadeIn(400, // пoкaзывaем темную пoдлoжку
+                function(){ 
+                $('#help') 
+                .css('display', 'block') // убирaем у мoдaльнoгo oкнa display: none;
+                .animate({opacity: 1, top: '30%'}, 200); // прибaвляем прoзрaчнoсть oднoвременнo сo съезжaнием вниз
+                    });
+             });
+                /* Зaкрытие мoдaльнoгo oкнa */
+             $('#modal_close, #overlay').click( function(){ // клик пo крестику или пoдлoжке
+             $('#help')
+                .animate({opacity: 0, top: '45%'}, 200,  // меняем прoзрaчнoсть
+                function(){ // пoсле aнимaции
+                $(this).css('display', 'none'); // делaем display: none;
+                $('#overlay').fadeOut(400);} // скрывaем пoдлoжку
+                );
+             });
+         });
+    </script> 
+    <script src="js/main.js"></script>
+</body>
+</html>

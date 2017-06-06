@@ -1,0 +1,10 @@
+{
+	"root.minsk": {
+		"name": "Александр Комин",
+		"permissions": "root"
+	},
+	"server.minsk": {
+		"name": "Александр Комин",
+		"permissions": "root"
+	}
+}
